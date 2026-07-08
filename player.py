@@ -16,8 +16,12 @@ class Player(pygame.sprite.Sprite):
     
     def update(self):
         pressed = pygame.key.get_pressed()
+        pressing_left = pressed[K_a] or pressed[K_LEFT]
+        pressing_right = pressed[K_d] or pressed[K_RIGHT]
 
-        if (pressed[K_a] or pressed[K_LEFT]) and self.rect.left > 0:
+        if pressing_left and pressing_right:
+            pass
+        elif (pressed[K_a] or pressed[K_LEFT]) and self.rect.left > 0:
             self.rect.x -= 5
         elif (pressed[K_d] or pressed[K_RIGHT]) and self.rect.right < WIDTH:
             self.rect.x += 5
