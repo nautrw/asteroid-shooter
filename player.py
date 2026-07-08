@@ -1,7 +1,6 @@
 import pygame
 from pygame.locals import *
 from settings import *
-from bullet import Bullet
 
 class Player(pygame.sprite.Sprite):
     # Ty will scream at me because pygame.Sprite defaults it to None
