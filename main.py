@@ -11,7 +11,7 @@ SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
 rocket_sprite = pygame.image.load("sprites/rocket.png").convert()
-player = Player((WIDTH / 2), (HEIGHT - 10), rocket_sprite)
+player = Player((WIDTH // 2), (HEIGHT - 10), rocket_sprite)
 
 running = True
 
