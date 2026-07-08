@@ -1,16 +1,18 @@
 import pygame
 from pygame.locals import *
-from player import Player
-from bullet import Bullet
+from scripts.player import Player
+from scripts.bullet import Bullet
 from settings import *
+import os
 
 pygame.init()
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
-bullet_sprite = pygame.image.load("sprites/bullet.png").convert()
+SPRITES = os.path.join('src', 'assets', 'sprites')
 
-rocket_sprite = pygame.image.load("sprites/rocket.png").convert()
+bullet_sprite = pygame.image.load(os.path.join(SPRITES, 'bullet.png')).convert()
+rocket_sprite = pygame.image.load(os.path.join(SPRITES, "rocket.png")).convert()
 player = Player((WIDTH // 2), (HEIGHT - 10), rocket_sprite)
 
 entities = pygame.sprite.Group()

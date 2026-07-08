@@ -1,4 +1,4 @@
-from bullet import Bullet
+from scripts.bullet import Bullet
 import pygame
 from pygame.locals import *
 from settings import *
