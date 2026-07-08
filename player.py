@@ -1,3 +1,4 @@
+from bullet import Bullet
 import pygame
 from pygame.locals import *
 from settings import *
@@ -25,3 +26,9 @@ class Player(pygame.sprite.Sprite):
             self.rect.x -= PLAYER_SPEED
         elif pressing_right and self.rect.right < WIDTH:
             self.rect.x += PLAYER_SPEED
+    
+    def shoot(self, bullet_sprite: pygame.Surface, bullet_group: pygame.sprite.Group):
+        x = self.rect.centerx
+        y = self.rect.top + BULLET_Y_OFFSET
+        bullet = Bullet(x, y, bullet_sprite)
+        bullet_group.add(bullet)

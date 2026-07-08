@@ -28,10 +28,7 @@ while running:
             running = False
         elif event.type == KEYDOWN:
             if event.key == K_SPACE:
-                x = player.rect.centerx
-                y = player.rect.top + BULLET_Y_OFFSET
-                bullet = Bullet(x, y, bullet_sprite)
-                bullets.add(bullet)
+                player.shoot(bullet_sprite, bullets)
     
     bullets.update()
     bullets.draw(SCREEN)
