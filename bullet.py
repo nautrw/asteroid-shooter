@@ -17,4 +17,4 @@ class Bullet(pygame.sprite.Sprite):
         if not 0 < self.rect.top < HEIGHT:
             self.kill()
         else:
-            self.rect.bottom -= 5
+            self.rect.bottom -= BULLET_SPEED

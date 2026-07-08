@@ -29,7 +29,7 @@ while running:
         elif event.type == KEYDOWN:
             if event.key == K_SPACE:
                 x = player.rect.centerx
-                y = player.rect.top + 5
+                y = player.rect.top + BULLET_Y_OFFSET
                 bullet = Bullet(x, y, bullet_sprite)
                 bullets.add(bullet)
     

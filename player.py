@@ -23,6 +23,6 @@ class Player(pygame.sprite.Sprite):
         if pressing_left and pressing_right:
             pass
         elif pressing_left and self.rect.left > 0:
-            self.rect.x -= 5
+            self.rect.x -= PLAYER_SPEED
         elif pressing_right and self.rect.right < WIDTH:
-            self.rect.x += 5
+            self.rect.x += PLAYER_SPEED
