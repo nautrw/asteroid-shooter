@@ -1,0 +1,4 @@
+[rules]
+# I decided to disable this because Pygame classes often default attributes to
+# `None` so it gets REALLY annoying to code
+unresolved-attribute = "ignore"
