@@ -1,10 +1,7 @@
 import pygame
 from pygame.locals import *
 from player import Player
-
-WIDTH = 400
-HEIGHT = 800
-FPS = 60
+from settings import *
 
 pygame.init()
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -23,6 +20,7 @@ while running:
     entities = pygame.sprite.Group()
     entities.add(player)
     
+    entities.update()
     entities.draw(SCREEN)
     
     pygame.display.flip()
