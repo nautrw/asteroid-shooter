@@ -10,7 +10,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, x: int, y: int, image: pygame.Surface):
         super().__init__()
         self.image: pygame.Surface = image
-        self.rect: pygame.Rect = self.image.get_rect()
+        self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.bottom = y
     
