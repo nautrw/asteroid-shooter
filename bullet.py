@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+from settings import *
 
 class Bullet(pygame.sprite.Sprite):
     # Check player.py
@@ -13,4 +14,7 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.bottom = y
     
     def update(self):
-        self.rect.bottom -= 5
+        if not 0 < self.rect.top < HEIGHT:
+            self.kill()
+        else:
+            self.rect.bottom -= 5
