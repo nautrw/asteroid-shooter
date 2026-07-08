@@ -8,7 +8,7 @@ class Player(pygame.sprite.Sprite):
     rect: pygame.Rect | pygame.FRect
     
     def __init__(self, x: int, y: int, image: pygame.Surface):
-        pygame.sprite.Sprite.__init__(self)
+        super().__init__()
         self.image: pygame.Surface = image
         self.rect: pygame.Rect = self.image.get_rect()
         self.rect.centerx = x
