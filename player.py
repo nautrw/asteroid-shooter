@@ -21,7 +21,7 @@ class Player(pygame.sprite.Sprite):
 
         if pressing_left and pressing_right:
             pass
-        elif pressing_left:
+        elif pressing_left and self.rect.left > 0:
             self.rect.x -= 5
-        elif pressing_right:
+        elif pressing_right and self.rect.right < WIDTH:
             self.rect.x += 5
