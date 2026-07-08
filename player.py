@@ -3,6 +3,10 @@ from pygame.locals import *
 from settings import *
 
 class Player(pygame.sprite.Sprite):
+    # Ty will scream at me because pygame.Sprite defaults it to None
+    # A band-aid until it gets fixed
+    rect: pygame.Rect | pygame.FRect
+    
     def __init__(self, x: int, y: int, image: pygame.Surface):
         pygame.sprite.Sprite.__init__(self)
         self.image: pygame.Surface = image
