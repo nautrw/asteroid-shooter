@@ -33,9 +33,9 @@ class Player(pygame.sprite.Sprite):
         if pressing_left and pressing_right:
             pass
         elif pressing_left and self.rect.left > 0:
-            self.rect.x -= self.movespeed * dt
+            self.rect.x -= round(self.movespeed * dt)
         elif pressing_right and self.rect.right < WIDTH:
-            self.rect.x += self.movespeed * dt
+            self.rect.x += round(self.movespeed * dt)
         
         if pressed[K_SPACE] and self.shot_dt_count >= self.shot_dt_interval:
             bullet = self.shoot()
