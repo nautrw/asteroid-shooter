@@ -4,17 +4,16 @@ from scripts.player import Player
 from scripts.bullet import Bullet
 from scripts.asteroid import Asteroid
 from settings import *
-import os
 import random
+from utils import load_sprite
 
 pygame.init()
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
-SPRITES = os.path.join('src', 'assets', 'sprites')
-bullet_sprite = pygame.image.load(os.path.join(SPRITES, 'bullet.png')).convert_alpha()
-rocket_sprite = pygame.image.load(os.path.join(SPRITES, "rocket.png")).convert_alpha()
-asteroid_sprite = pygame.image.load(os.path.join(SPRITES, 'asteroid.png')).convert_alpha()
+bullet_sprite = load_sprite("bullet")
+rocket_sprite = load_sprite("rocket")
+asteroid_sprite = load_sprite("asteroid")
 
 player = Player((WIDTH // 2), (HEIGHT - 10), rocket_sprite)
 
