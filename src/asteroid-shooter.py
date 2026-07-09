@@ -46,7 +46,6 @@ while running:
     
     pygame.display.flip()
     dt = clock.tick(FPS) / 1000
-    print(dt)
     asteroid_dt_count += dt
 
 pygame.quit()
