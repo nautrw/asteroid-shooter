@@ -15,7 +15,8 @@ player_shot_dt_count = 0
 bullets = pygame.sprite.Group()
 
 asteroids = pygame.sprite.Group()
-asteroid_dt_count = 0
+# defaults so that there is no delay for asteroids to spawn
+asteroid_dt_count = 100
 
 dt = 0
 
