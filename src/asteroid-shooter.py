@@ -42,6 +42,8 @@ while running:
         asteroids.add(asteroid)
         asteroid_dt_count = 0
     
+    pygame.sprite.groupcollide(bullets, asteroids, True, True)
+    
     asteroids.update()
     asteroids.draw(SCREEN)
     
