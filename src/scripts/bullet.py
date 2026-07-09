@@ -13,9 +13,10 @@ class Bullet(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.bottom = y
+        self.speed = 5
     
     def update(self):
         if not 0 < self.rect.top < HEIGHT:
             self.kill()
         else:
-            self.rect.bottom -= BULLET_SPEED
+            self.rect.bottom -= self.speed
