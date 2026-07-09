@@ -16,7 +16,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = x
         self.rect.bottom = y
 
-        self.movespeed = 250
+        self.movespeed = 275
         
         self.bullet_y_offset = 5
 
