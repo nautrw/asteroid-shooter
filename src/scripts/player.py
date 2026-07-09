@@ -15,6 +15,8 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.bottom = y
+        
+        self.bullet_y_offset = 5
 
         self.shot_dt_count = 0
         self.shot_dt_interval = 250
@@ -38,6 +40,6 @@ class Player(pygame.sprite.Sprite):
     
     def shoot(self):
         x = self.rect.centerx
-        y = self.rect.top + BULLET_Y_OFFSET
+        y = self.rect.top + self.bullet_y_offset
         return Bullet(x, y)
         
