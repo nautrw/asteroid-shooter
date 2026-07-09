@@ -14,10 +14,11 @@ class Asteroid(pygame.sprite.Sprite):
         self.rect.centerx = x
         self.rect.top = y
 
-        self.speed = 5
+        self.speed = 250
+
     
-    def update(self):
+    def update(self, dt: int | float):
         if self.rect.bottom >= HEIGHT:
             self.kill()
         else:
-            self.rect.bottom += self.speed
+            self.rect.bottom += self.speed * dt

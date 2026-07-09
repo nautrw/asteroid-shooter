@@ -41,7 +41,7 @@ while running:
     bullets.update(dt)
     bullets.draw(SCREEN)
 
-    asteroids.update()
+    asteroids.update(dt)
     asteroids.draw(SCREEN)
     
     pygame.display.flip()
