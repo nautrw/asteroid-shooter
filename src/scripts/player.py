@@ -27,8 +27,8 @@ class Player(pygame.sprite.Sprite):
         elif pressing_right and self.rect.right < WIDTH:
             self.rect.x += PLAYER_SPEED
     
-    def shoot(self, bullet_sprite: pygame.Surface, bullet_group: pygame.sprite.Group):
+    def shoot(self, bullet_sprite: pygame.Surface):
         x = self.rect.centerx
         y = self.rect.top + BULLET_Y_OFFSET
-        bullet = Bullet(x, y, bullet_sprite)
-        bullet_group.add(bullet)
+        return Bullet(x, y, bullet_sprite)
+        

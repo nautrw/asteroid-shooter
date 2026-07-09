@@ -1,7 +1,6 @@
 import pygame
 from pygame.locals import *
 from scripts.player import Player
-from scripts.bullet import Bullet
 from scripts.asteroid import Asteroid
 from settings import *
 import random
@@ -35,20 +34,17 @@ while running:
             running = False
         elif event.type == KEYDOWN:
             if event.key == K_SPACE:
-                player.shoot(bullet_sprite, bullets)
+                bullet = player.shoot(bullet_sprite)
+                bullets.add(bullet)
+                entities.add(bullet)
     
     if asteroid_dt_count >= ASTEROID_DT_SPAWN_INTERVAl:
         asteroid = Asteroid(random.randint(0, WIDTH), 0, asteroid_sprite)
         asteroids.add(asteroid)
+        entities.add(asteroid)
         asteroid_dt_count = 0
     
     pygame.sprite.groupcollide(bullets, asteroids, True, True)
-    
-    asteroids.update()
-    asteroids.draw(SCREEN)
-    
-    bullets.update()
-    bullets.draw(SCREEN)
     
     entities.update()
     entities.draw(SCREEN)
