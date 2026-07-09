@@ -15,8 +15,11 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.bottom = y
+
+        self.shot_dt_count = 0
+        self.shot_dt_interval = 250
     
-    def update(self):
+    def update(self, bullet_group: pygame.sprite.Group):
         pressed = pygame.key.get_pressed()
         pressing_left = pressed[K_a] or pressed[K_LEFT]
         pressing_right = pressed[K_d] or pressed[K_RIGHT]
@@ -27,6 +30,11 @@ class Player(pygame.sprite.Sprite):
             self.rect.x -= PLAYER_SPEED
         elif pressing_right and self.rect.right < WIDTH:
             self.rect.x += PLAYER_SPEED
+        
+        if pressed[K_SPACE] and self.shot_dt_count >= self.shot_dt_interval:
+            bullet = self.shoot()
+            bullet_group.add(bullet)
+            self.shot_dt_count = 0
     
     def shoot(self):
         x = self.rect.centerx

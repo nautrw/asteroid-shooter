@@ -11,8 +11,6 @@ clock = pygame.time.Clock()
 
 player = Player((WIDTH // 2), (HEIGHT - 10))
 player_shot_dt_count = 0
-entities = pygame.sprite.Group()
-entities.add(player)
 
 bullets = pygame.sprite.Group()
 
@@ -27,27 +25,26 @@ while running:
     for event in pygame.event.get():
         if event.type == QUIT:
             running = False
-        elif event.type == KEYDOWN:
-            if event.key == K_SPACE and player_shot_dt_count >= PLAYER_SHOOT_COOLDOWN:
-                bullet = player.shoot()
-                bullets.add(bullet)
-                entities.add(bullet)
-                player_shot_dt_count = 0
     
     if asteroid_dt_count >= ASTEROID_DT_SPAWN_INTERVAl:
         asteroid = Asteroid(random.randint(0, WIDTH), 0)
         asteroids.add(asteroid)
-        entities.add(asteroid)
         asteroid_dt_count = 0
     
     pygame.sprite.groupcollide(bullets, asteroids, True, True)
-    
-    entities.update()
-    entities.draw(SCREEN)
+
+    player.update(bullets)
+    SCREEN.blit(player.image, player.rect)  # ty:ignore[invalid-argument-type]
+
+    bullets.update()
+    bullets.draw(SCREEN)
+
+    asteroids.update()
+    asteroids.draw(SCREEN)
     
     pygame.display.flip()
     dt = clock.tick(FPS)
     asteroid_dt_count += dt
-    player_shot_dt_count += dt
+    player.shot_dt_count += dt
 
 pygame.quit()
