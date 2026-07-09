@@ -4,17 +4,12 @@ from scripts.player import Player
 from scripts.asteroid import Asteroid
 from settings import *
 import random
-from utils import load_sprite
 
 pygame.init()
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
-bullet_sprite = load_sprite("bullet")
-rocket_sprite = load_sprite("rocket")
-asteroid_sprite = load_sprite("asteroid")
-
-player = Player((WIDTH // 2), (HEIGHT - 10), rocket_sprite)
+player = Player((WIDTH // 2), (HEIGHT - 10))
 player_shot_dt_count = 0
 entities = pygame.sprite.Group()
 entities.add(player)
@@ -34,13 +29,13 @@ while running:
             running = False
         elif event.type == KEYDOWN:
             if event.key == K_SPACE and player_shot_dt_count >= PLAYER_SHOOT_COOLDOWN:
-                bullet = player.shoot(bullet_sprite)
+                bullet = player.shoot()
                 bullets.add(bullet)
                 entities.add(bullet)
                 player_shot_dt_count = 0
     
     if asteroid_dt_count >= ASTEROID_DT_SPAWN_INTERVAl:
-        asteroid = Asteroid(random.randint(0, WIDTH), 0, asteroid_sprite)
+        asteroid = Asteroid(random.randint(0, WIDTH), 0)
         asteroids.add(asteroid)
         entities.add(asteroid)
         asteroid_dt_count = 0
