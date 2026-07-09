@@ -16,14 +16,16 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = x
         self.rect.bottom = y
 
-        self.movespeed = 5
+        self.movespeed = 250
         
         self.bullet_y_offset = 5
 
         self.shot_dt_count = 0
-        self.shot_dt_interval = 250
+        self.shot_dt_interval = 0.25
     
-    def update(self, bullet_group: pygame.sprite.Group):
+    def update(self, dt: int | float, bullet_group: pygame.sprite.Group):
+        self.shot_dt_count += dt
+
         pressed = pygame.key.get_pressed()
         pressing_left = pressed[K_a] or pressed[K_LEFT]
         pressing_right = pressed[K_d] or pressed[K_RIGHT]
@@ -31,9 +33,9 @@ class Player(pygame.sprite.Sprite):
         if pressing_left and pressing_right:
             pass
         elif pressing_left and self.rect.left > 0:
-            self.rect.x -= self.movespeed
+            self.rect.x -= self.movespeed * dt
         elif pressing_right and self.rect.right < WIDTH:
-            self.rect.x += self.movespeed
+            self.rect.x += self.movespeed * dt
         
         if pressed[K_SPACE] and self.shot_dt_count >= self.shot_dt_interval:
             bullet = self.shoot()

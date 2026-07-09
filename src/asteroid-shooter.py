@@ -17,6 +17,8 @@ bullets = pygame.sprite.Group()
 asteroids = pygame.sprite.Group()
 asteroid_dt_count = 0
 
+dt = 0
+
 running = True
 
 while running:
@@ -33,18 +35,17 @@ while running:
     
     pygame.sprite.groupcollide(bullets, asteroids, True, True)
 
-    player.update(bullets)
+    player.update(dt, bullets)
     SCREEN.blit(player.image, player.rect)  # ty:ignore[invalid-argument-type]
 
-    bullets.update()
+    bullets.update(dt)
     bullets.draw(SCREEN)
 
     asteroids.update()
     asteroids.draw(SCREEN)
     
     pygame.display.flip()
-    dt = clock.tick(FPS)
+    dt = clock.tick(FPS) / 1000
     asteroid_dt_count += dt
-    player.shot_dt_count += dt
 
 pygame.quit()
