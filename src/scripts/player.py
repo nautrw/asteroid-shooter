@@ -28,6 +28,8 @@ class Player(pygame.sprite.Sprite):
         self.blinks = 0
         self.blinks_dt_count = 0
         self.blinks_dt_interval = 0.3
+
+        self.lives = 3
     
     def update(self, dt: int | float, bullet_group: pygame.sprite.Group, screen_width: int):
         self.shot_dt_count += dt

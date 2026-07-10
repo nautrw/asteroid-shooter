@@ -3,6 +3,7 @@ from pygame.locals import *
 from scripts.player import Player
 from scripts.asteroid import Asteroid
 import random
+from utils import load_sprite
 
 class Game:
     def __init__(self, width: int = 400, height: int = 800, fps: int = 60):
@@ -20,6 +21,7 @@ class Game:
         self.asteroid_dt_spawn_interval = 1
         self.dt = 0
         self.running = True
+        self.heart_sprite = load_sprite("heart")
 
     def run(self):
         while self.running:
@@ -41,6 +43,8 @@ class Game:
             if self.player_collisions and not self.player.blinking:
                 self.player.blinking = True
 
+            self.draw_ui()
+
             self.player.update(self.dt, self.bullets_group, self.width)
             self.player.draw(self.screen)
 
@@ -55,6 +59,14 @@ class Game:
             self.asteroid_dt_count += self.dt
 
         pygame.quit()
+
+    def draw_ui(self):
+        heart_width, heart_height = self.heart_sprite.get_width(), self.heart_sprite.get_height()
+        offset = 5
+        spacing = 5
+        for i in range(self.player.lives):
+            rect = pygame.Rect(offset + i * (heart_width + spacing), offset, heart_width, heart_height)
+            self.screen.blit(self.heart_sprite, rect)
 
 if __name__ == "__main__":
     Game().run()
