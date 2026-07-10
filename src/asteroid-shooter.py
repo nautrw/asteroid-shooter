@@ -23,6 +23,8 @@ class Game:
         self.running = True
         self.heart_sprite = load_sprite("heart")
 
+        self.paused = False
+
     def run(self):
         while self.running:
             self.screen.fill((0, 0, 0))
@@ -30,32 +32,33 @@ class Game:
             for event in pygame.event.get():
                 if event.type == QUIT:
                     self.running = False
+                elif event.type == KEYDOWN:
+                    if event.key == K_p:
+                        self.paused = not self.paused
 
-            if self.asteroid_dt_count >= self.asteroid_dt_spawn_interval:
-                asteroid = Asteroid(random.randint(0, self.width), 0)
-                self.asteroids_group.add(asteroid)
-                self.asteroid_dt_count = 0
+            if not self.paused:
+                if self.asteroid_dt_count >= self.asteroid_dt_spawn_interval:
+                    asteroid = Asteroid(random.randint(0, self.width), 0)
+                    self.asteroids_group.add(asteroid)
+                    self.asteroid_dt_count = 0
+            
+                pygame.sprite.groupcollide(self.bullets_group, self.asteroids_group, True, True)
 
-            pygame.sprite.groupcollide(self.bullets_group, self.asteroids_group, True, True)
+                player_collisions = pygame.sprite.spritecollideany(self.player, self.asteroids_group)
 
-            player_collisions = pygame.sprite.spritecollideany(self.player, self.asteroids_group)
+                if player_collisions:
+                    self.player.lose_life()
 
-            if player_collisions:
-                self.player.lose_life()
+                if self.player.lives <= 0:
+                    self.game_over()
 
-            if self.player.lives <= 0:
-                self.game_over()
+                self.player.update(self.dt, self.bullets_group, self.width)
 
-            self.player.update(self.dt, self.bullets_group, self.width)
-            self.player.draw(self.screen)
+                self.bullets_group.update(self.dt, self.height)
 
-            self.bullets_group.update(self.dt, self.height)
-            self.bullets_group.draw(self.screen)
+                self.asteroids_group.update(self.dt, self.height, self.player.lose_life)
 
-            self.asteroids_group.update(self.dt, self.height, self.player.lose_life)
-            self.asteroids_group.draw(self.screen)
-
-            self.draw_ui()
+            self.draw_all()
 
             pygame.display.flip()
             self.dt = self.clock.tick(self.fps) / 1000
@@ -70,6 +73,12 @@ class Game:
         for i in range(self.player.lives):
             rect = pygame.Rect(offset + i * (heart_width + spacing), offset, heart_width, heart_height)
             self.screen.blit(self.heart_sprite, rect)
+
+    def draw_all(self):
+        self.player.draw(self.screen)
+        self.bullets_group.draw(self.screen)
+        self.asteroids_group.draw(self.screen)
+        self.draw_ui()
     
     def game_over(self):
         self.running = False
