@@ -54,6 +54,7 @@ class Game:
                         x, y = asteroid[0].rect.centerx, asteroid[0].rect.centery
                         explosion = Explosion(x, y)
                         self.explosions_group.add(explosion)
+                        self.score += 1
 
                 player_collisions = pygame.sprite.spritecollideany(self.player, self.asteroids_group)
 
