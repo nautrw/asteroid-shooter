@@ -1,4 +1,3 @@
-from pygame.mixer_music import play
 import pygame
 from pygame.locals import *
 from scripts.player import Player
