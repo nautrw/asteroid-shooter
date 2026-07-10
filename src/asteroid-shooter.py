@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from scripts.player import Player
 from scripts.asteroid import Asteroid
+from scripts.explosion import Explosion
 import random
 from utils import load_sprite
 
@@ -16,6 +17,7 @@ class Game:
         self.player = Player((self.width // 2), (self.height - 10))
         self.bullets_group = pygame.sprite.Group()
         self.asteroids_group = pygame.sprite.Group()
+        self.explosions_group = pygame.sprite.Group()
         # defaults so that there is no delay for asteroids to spawn
         self.asteroid_dt_count = 100
         self.asteroid_dt_spawn_interval = 1
@@ -42,7 +44,13 @@ class Game:
                     self.asteroids_group.add(asteroid)
                     self.asteroid_dt_count = 0
             
-                pygame.sprite.groupcollide(self.bullets_group, self.asteroids_group, True, True)
+                asteroid_hits = pygame.sprite.groupcollide(self.bullets_group, self.asteroids_group, True, True)
+
+                if asteroid_hits:
+                    for asteroid in asteroid_hits.values():
+                        x, y = asteroid[0].rect.centerx, asteroid[0].rect.centery
+                        explosion = Explosion(x, y)
+                        self.explosions_group.add(explosion)
 
                 player_collisions = pygame.sprite.spritecollideany(self.player, self.asteroids_group)
 
@@ -57,6 +65,8 @@ class Game:
                 self.bullets_group.update(self.dt, self.height)
 
                 self.asteroids_group.update(self.dt, self.height, self.player.lose_life)
+
+                self.explosions_group.update(self.dt)
 
             self.draw_all()
 
@@ -78,6 +88,7 @@ class Game:
         self.player.draw(self.screen)
         self.bullets_group.draw(self.screen)
         self.asteroids_group.draw(self.screen)
+        self.explosions_group.draw(self.screen)
         self.draw_ui()
     
     def game_over(self):
