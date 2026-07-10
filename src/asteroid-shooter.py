@@ -38,12 +38,13 @@ class Game:
 
             pygame.sprite.groupcollide(self.bullets_group, self.asteroids_group, True, True)
 
-            self.player_collisions = pygame.sprite.spritecollideany(self.player, self.asteroids_group)
+            player_collisions = pygame.sprite.spritecollideany(self.player, self.asteroids_group)
 
-            if self.player_collisions and not self.player.blinking:
-                self.player.blinking = True
+            if player_collisions:
+                self.player.lose_life()
 
-            self.draw_ui()
+            if self.player.lives <= 0:
+                self.game_over()
 
             self.player.update(self.dt, self.bullets_group, self.width)
             self.player.draw(self.screen)
@@ -51,8 +52,10 @@ class Game:
             self.bullets_group.update(self.dt, self.height)
             self.bullets_group.draw(self.screen)
 
-            self.asteroids_group.update(self.dt, self.height)
+            self.asteroids_group.update(self.dt, self.height, self.player.lose_life)
             self.asteroids_group.draw(self.screen)
+
+            self.draw_ui()
 
             pygame.display.flip()
             self.dt = self.clock.tick(self.fps) / 1000
@@ -67,6 +70,9 @@ class Game:
         for i in range(self.player.lives):
             rect = pygame.Rect(offset + i * (heart_width + spacing), offset, heart_width, heart_height)
             self.screen.blit(self.heart_sprite, rect)
+    
+    def game_over(self):
+        self.running = False
 
 if __name__ == "__main__":
     Game().run()

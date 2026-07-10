@@ -68,6 +68,11 @@ class Player(pygame.sprite.Sprite):
         if self.visible:
             screen.blit(self.image, self.rect) # ty:ignore[invalid-argument-type]
     
+    def lose_life(self):
+        if not self.blinking:
+            self.blinking = True
+            self.lives -= 1
+    
     def shoot(self):
         x = self.rect.centerx
         y = self.rect.top + self.bullet_y_offset
