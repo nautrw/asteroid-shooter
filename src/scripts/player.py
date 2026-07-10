@@ -1,7 +1,6 @@
 from scripts.bullet import Bullet
 import pygame
 from pygame.locals import *
-from settings import *
 from utils import load_sprite
 
 class Player(pygame.sprite.Sprite):
@@ -30,7 +29,7 @@ class Player(pygame.sprite.Sprite):
         self.blinks_dt_count = 0
         self.blinks_dt_interval = 0.3
     
-    def update(self, dt: int | float, bullet_group: pygame.sprite.Group):
+    def update(self, dt: int | float, bullet_group: pygame.sprite.Group, screen_width: int):
         self.shot_dt_count += dt
 
         pressed = pygame.key.get_pressed()
@@ -41,7 +40,7 @@ class Player(pygame.sprite.Sprite):
             pass
         elif pressing_left and self.rect.left > 0:
             self.rect.x -= round(self.movespeed * dt)
-        elif pressing_right and self.rect.right < WIDTH:
+        elif pressing_right and self.rect.right < screen_width:
             self.rect.x += round(self.movespeed * dt)
         
         if pressed[K_SPACE] and self.shot_dt_count >= self.shot_dt_interval:

@@ -1,6 +1,5 @@
 import pygame
 from pygame.locals import *
-from settings import *
 from utils import load_sprite
 
 class Bullet(pygame.sprite.Sprite):
@@ -15,8 +14,8 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.bottom = y
         self.speed = 250
     
-    def update(self, dt: int | float):
-        if not 0 < self.rect.top < HEIGHT:
+    def update(self, dt: int | float, screen_height: int):
+        if not 0 < self.rect.top < screen_height:
             self.kill()
         else:
             self.rect.bottom -= self.speed * dt

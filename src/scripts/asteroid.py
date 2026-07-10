@@ -1,5 +1,4 @@
 import pygame
-from settings import *
 from pygame.locals import *
 from utils import load_sprite
 
@@ -17,8 +16,8 @@ class Asteroid(pygame.sprite.Sprite):
         self.speed = 250
 
     
-    def update(self, dt: int | float):
-        if self.rect.bottom >= HEIGHT:
+    def update(self, dt: int | float, screen_height: int):
+        if self.rect.bottom >= screen_height:
             self.kill()
         else:
             self.rect.bottom += self.speed * dt
