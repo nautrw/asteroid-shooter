@@ -25,6 +25,9 @@ class Game:
         self.running = True
         self.heart_sprite = load_sprite("heart")
 
+        self.score = 0
+        self.font = pygame.font.Font("freesansbold.ttf", 32)
+
         self.paused = False
 
     def run(self):
@@ -77,12 +80,20 @@ class Game:
         pygame.quit()
 
     def draw_ui(self):
+        # hearts
         heart_width, heart_height = self.heart_sprite.get_width(), self.heart_sprite.get_height()
         offset = 5
         spacing = 5
         for i in range(self.player.lives):
             rect = pygame.Rect(offset + i * (heart_width + spacing), offset, heart_width, heart_height)
             self.screen.blit(self.heart_sprite, rect)
+
+        # score
+        score_text = self.font.render(str(self.score), True, "white")
+        score_rect = score_text.get_rect()
+        score_rect.centerx = self.width // 2
+        score_rect.top = offset
+        self.screen.blit(score_text, score_rect)
 
     def draw_all(self):
         self.player.draw(self.screen)
