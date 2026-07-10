@@ -28,9 +28,7 @@ class Player(pygame.sprite.Sprite):
         self.blinking = False
         self.blinks = 0
         self.blinks_dt_count = 0
-        self.blinks_dt_interval = 10
-        self.blink_time_dt_count = 0
-        self.blink_time_dt_interval = 2
+        self.blinks_dt_interval = 0.3
     
     def update(self, dt: int | float, bullet_group: pygame.sprite.Group):
         self.shot_dt_count += dt
@@ -52,20 +50,17 @@ class Player(pygame.sprite.Sprite):
             self.shot_dt_count = 0
 
         if self.blinking:
-            self.blinks_dt_interval += dt
-            self.blink_time_dt_count += dt
-            print(self.blink_time_dt_count)
+            self.blinks_dt_count += dt
         
-            if self.blinks_dt_count >= self.blinks_dt_interval and self.blink_time_dt_count >= self.blink_time_dt_interval:
+            if self.blinks_dt_count >= self.blinks_dt_interval:
                 self.visible = not self.visible
+                self.blinks += 1
                 self.blinks_dt_count = 0
-                self.blink_time_dt_count = 0
             
             if self.blinks >= 6:
                 self.blinking = False
                 self.visible = True
-                self.blinks_dt_count = 0
-                self.blink_time_dt_count = 0
+                self.blinks = 0
 
     def draw(self, screen: pygame.Surface):
         if self.visible:
