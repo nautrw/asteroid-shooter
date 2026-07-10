@@ -11,7 +11,7 @@ class Asteroid(pygame.sprite.Sprite):
         self.image: pygame.Surface = load_sprite("asteroid")
         self.rect = self.image.get_rect()
         self.rect.centerx = x
-        self.rect.top = y
+        self.rect.bottom = y
 
         self.speed = 250
 
