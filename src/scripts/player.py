@@ -12,6 +12,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, x: int | float, y: int | float):
         super().__init__()
         self.image: pygame.Surface = load_sprite("rocket")
+        self.visible = True
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.bottom = y
@@ -22,6 +23,14 @@ class Player(pygame.sprite.Sprite):
 
         self.shot_dt_count = 0
         self.shot_dt_interval = 0.25
+
+        self.hit = False
+        self.blinking = False
+        self.blinks = 0
+        self.blinks_dt_count = 0
+        self.blinks_dt_interval = 10
+        self.blink_time_dt_count = 0
+        self.blink_time_dt_interval = 2
     
     def update(self, dt: int | float, bullet_group: pygame.sprite.Group):
         self.shot_dt_count += dt
@@ -41,6 +50,26 @@ class Player(pygame.sprite.Sprite):
             bullet = self.shoot()
             bullet_group.add(bullet)
             self.shot_dt_count = 0
+
+        if self.blinking:
+            self.blinks_dt_interval += dt
+            self.blink_time_dt_count += dt
+            print(self.blink_time_dt_count)
+        
+            if self.blinks_dt_count >= self.blinks_dt_interval and self.blink_time_dt_count >= self.blink_time_dt_interval:
+                self.visible = not self.visible
+                self.blinks_dt_count = 0
+                self.blink_time_dt_count = 0
+            
+            if self.blinks >= 6:
+                self.blinking = False
+                self.visible = True
+                self.blinks_dt_count = 0
+                self.blink_time_dt_count = 0
+
+    def draw(self, screen: pygame.Surface):
+        if self.visible:
+            screen.blit(self.image, self.rect) # ty:ignore[invalid-argument-type]
     
     def shoot(self):
         x = self.rect.centerx

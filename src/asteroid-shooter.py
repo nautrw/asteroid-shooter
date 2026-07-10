@@ -1,3 +1,4 @@
+from pygame.mixer_music import play
 import pygame
 from pygame.locals import *
 from scripts.player import Player
@@ -35,6 +36,11 @@ while running:
         asteroid_dt_count = 0
     
     pygame.sprite.groupcollide(bullets, asteroids, True, True)
+
+    player_collisions = pygame.sprite.spritecollideany(player, asteroids)
+
+    if player_collisions and not player.blinking:
+        player.blinking = True
 
     player.update(dt, bullets)
     SCREEN.blit(player.image, player.rect)  # ty:ignore[invalid-argument-type]
