@@ -18,7 +18,6 @@ class Explosion(pg.sprite.Sprite):
 
     def update(self, dt: int | float):
         self.lifespan_dt_count += dt
-        print(self.lifespan_dt_count)
 
         if self.lifespan_dt_count >= self.lifespan:
             self.kill()
