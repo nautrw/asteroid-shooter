@@ -61,6 +61,7 @@ class Player(pygame.sprite.Sprite):
                 self.blinking = False
                 self.visible = True
                 self.blinks = 0
+                self.blinks_dt_count = 0
 
     def draw(self, screen: pygame.Surface):
         if self.visible:

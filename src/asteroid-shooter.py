@@ -41,9 +41,6 @@ while running:
 
     if player_collisions and not player.blinking:
         player.blinking = True
-        player.blinks = 0
-        player.blinks_dt_count = 0
-        player.visible = False
 
     player.update(dt, bullets)
     player.draw(SCREEN)
