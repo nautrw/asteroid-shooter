@@ -5,53 +5,53 @@ from scripts.asteroid import Asteroid
 from settings import *
 import random
 
-pygame.init()
-SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
-clock = pygame.time.Clock()
+class Game:
+    def __init__(self, width: int, height: int):
+        pygame.init()
+        self.screen = pygame.display.set_mode((width, height))
+        self.clock = pygame.time.Clock()
+        self.player = Player((WIDTH // 2), (HEIGHT - 10))
+        self.bullets_group = pygame.sprite.Group()
+        self.asteroids_group = pygame.sprite.Group()
+        # defaults so that there is no delay for asteroids to spawn
+        self.asteroid_dt_count = 100
+        self.dt = 0
+        self.running = True
 
-player = Player((WIDTH // 2), (HEIGHT - 10))
-player_shot_dt_count = 0
+    def run(self):
+        while self.running:
+            self.screen.fill((0, 0, 0))
 
-bullets = pygame.sprite.Group()
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    self.running = False
 
-asteroids = pygame.sprite.Group()
-# defaults so that there is no delay for asteroids to spawn
-asteroid_dt_count = 100
+            if self.asteroid_dt_count >= ASTEROID_DT_SPAWN_INTERVAl:
+                asteroid = Asteroid(random.randint(0, WIDTH), 0)
+                self.asteroids_group.add(asteroid)
+                self.asteroid_dt_count = 0
 
-dt = 0
+            pygame.sprite.groupcollide(self.bullets_group, self.asteroids_group, True, True)
 
-running = True
+            self.player_collisions = pygame.sprite.spritecollideany(self.player, self.asteroids_group)
 
-while running:
-    SCREEN.fill((0, 0, 0))
-    
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            running = False
-    
-    if asteroid_dt_count >= ASTEROID_DT_SPAWN_INTERVAl:
-        asteroid = Asteroid(random.randint(0, WIDTH), 0)
-        asteroids.add(asteroid)
-        asteroid_dt_count = 0
-    
-    pygame.sprite.groupcollide(bullets, asteroids, True, True)
+            if self.player_collisions and not self.player.blinking:
+                self.player.blinking = True
 
-    player_collisions = pygame.sprite.spritecollideany(player, asteroids)
+            self.player.update(self.dt, self.bullets_group)
+            self.player.draw(self.screen)
 
-    if player_collisions and not player.blinking:
-        player.blinking = True
+            self.bullets_group.update(self.dt)
+            self.bullets_group.draw(self.screen)
 
-    player.update(dt, bullets)
-    player.draw(SCREEN)
+            self.asteroids_group.update(self.dt)
+            self.asteroids_group.draw(self.screen)
 
-    bullets.update(dt)
-    bullets.draw(SCREEN)
+            pygame.display.flip()
+            self.dt = self.clock.tick(FPS) / 1000
+            self.asteroid_dt_count += self.dt
 
-    asteroids.update(dt)
-    asteroids.draw(SCREEN)
-    
-    pygame.display.flip()
-    dt = clock.tick(FPS) / 1000
-    asteroid_dt_count += dt
+        pygame.quit()
 
-pygame.quit()
+if __name__ == "__main__":
+    Game(WIDTH, HEIGHT).run()
