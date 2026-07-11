@@ -61,7 +61,7 @@ class Game:
                 player_collisions = pygame.sprite.spritecollideany(self.player, self.asteroids_group)
 
                 if player_collisions:
-                    self.player.lose_life()
+                    self.player.lose_life(self.reset)
 
                 if self.player.lives <= 0:
                     self.game_over()
@@ -70,7 +70,7 @@ class Game:
 
                 self.bullets_group.update(self.dt, self.height)
 
-                self.asteroids_group.update(self.dt, self.height, self.player.lose_life)
+                self.asteroids_group.update(self.dt, self.height, self.player.lose_life, self.reset)
 
                 self.explosions_group.update(self.dt)
 
@@ -125,6 +125,10 @@ class Game:
     
     def game_over(self):
         self.running = False
+
+    def reset(self):
+        self.player.rect.centerx = self.width // 2
+        self.asteroids_group.empty()
 
 if __name__ == "__main__":
     Game().run()

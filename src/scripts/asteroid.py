@@ -16,9 +16,9 @@ class Asteroid(pygame.sprite.Sprite):
         self.speed = 250
 
     
-    def update(self, dt: int | float, screen_height: int, damage_callback: function):
+    def update(self, dt: int | float, screen_height: int, damage_callback: function, reset_callback: function):
         if self.rect.bottom >= screen_height:
-            damage_callback()
+            damage_callback(reset_callback)
             self.kill()
         else:
             self.rect.bottom += self.speed * dt
