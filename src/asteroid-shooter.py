@@ -83,8 +83,6 @@ class Game:
         pygame.quit()
 
     def draw_ui(self):
-        self.screen.fill((0, 0, 0))
-
         if not self.main_menu:
             # hearts
             heart_width, heart_height = self.heart_sprite.get_width(), self.heart_sprite.get_height()
@@ -115,11 +113,15 @@ class Game:
             self.screen.blit(pause_surface, (0, 0))
 
     def draw_all(self):
+        self.screen.fill((0, 0, 0))
+
+        if not self.main_menu:
+            self.player.draw(self.screen)
+            self.bullets_group.draw(self.screen)
+            self.asteroids_group.draw(self.screen)
+            self.explosions_group.draw(self.screen)
+
         self.draw_ui()
-        self.player.draw(self.screen)
-        self.bullets_group.draw(self.screen)
-        self.asteroids_group.draw(self.screen)
-        self.explosions_group.draw(self.screen)
     
     def game_over(self):
         self.running = False
