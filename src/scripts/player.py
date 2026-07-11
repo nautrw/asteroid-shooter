@@ -1,7 +1,8 @@
 from scripts.bullet import Bullet
 import pygame
+from pygame import mixer
 from pygame.locals import *
-from utils import load_sprite
+from utils import load_sprite, load_sound
 
 class Player(pygame.sprite.Sprite):
     # Ty will scream at me because pygame.Sprite defaults it to None
@@ -22,6 +23,8 @@ class Player(pygame.sprite.Sprite):
 
         self.shot_dt_count = 0
         self.shot_dt_interval = 0.5
+        self.fire_sound = load_sound("fire")
+        self.fire_sound.set_volume(0.5)
 
         self.hit = False
         self.blinking = False
@@ -31,7 +34,7 @@ class Player(pygame.sprite.Sprite):
 
         self.lives = 3
     
-    def update(self, dt: int | float, bullet_group: pygame.sprite.Group, screen_width: int):
+    def update(self, dt: int | float, bullet_group: pygame.sprite.Group, screen_width: int, audio_paused: bool):
         self.shot_dt_count += dt
 
         pressed = pygame.key.get_pressed()
@@ -49,6 +52,9 @@ class Player(pygame.sprite.Sprite):
             bullet = self.shoot()
             bullet_group.add(bullet)
             self.shot_dt_count = 0
+
+            if not audio_paused:
+                self.fire_sound.play()
 
         if self.blinking:
             self.blinks_dt_count += dt
@@ -72,7 +78,7 @@ class Player(pygame.sprite.Sprite):
         if not self.blinking:
             self.blinking = True
             self.lives -= 1
-            reset_callback()
+            reset_callback()  # ty:ignore[call-non-callable]
     
     def shoot(self):
         x = self.rect.centerx

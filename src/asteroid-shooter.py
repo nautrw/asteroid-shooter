@@ -1,3 +1,4 @@
+from tkinter import W
 import os
 import pygame
 from pygame import mixer
@@ -11,6 +12,8 @@ from utils import load_sprite, draw_text, load_sound
 class Game:
     def __init__(self, width: int = 400, height: int = 800, fps: int = 60):
         pygame.init()
+        mixer.init() # for sounds
+
         self.width = width
         self.height = height
         self.fps = fps
@@ -21,10 +24,10 @@ class Game:
         pygame.display.set_icon(icon)
         pygame.display.set_caption("Asteroid Shooter")
         
-        mixer.init()
         self.background_music = load_sound("background")
         self.background_music.set_volume(0.5)
-        self.background_music.play(-1)
+        mixer.Channel(0).play(self.background_music, -1)
+        self.audio_paused = False
 
         self.clock = pygame.time.Clock()
 
@@ -59,6 +62,9 @@ class Game:
                         self.paused = not self.paused
                     elif event.key == K_SPACE and self.main_menu:
                         self.main_menu = False
+                    elif event.key == K_m:
+                        self.audio_paused = not self.audio_paused
+                        self.background_music.set_volume(0 if self.audio_paused else 0.5)
 
             if not self.paused and not self.main_menu and not self.player_lost:
                 if self.asteroid_dt_count >= self.asteroid_dt_spawn_interval:
@@ -90,7 +96,7 @@ class Game:
                 if self.player.lives <= 0:
                     self.player_lost = True
 
-                self.player.update(self.dt, self.bullets_group, self.width)
+                self.player.update(self.dt, self.bullets_group, self.width, self.audio_paused)
 
                 self.bullets_group.update(self.dt, self.height)
 
