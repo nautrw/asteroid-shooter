@@ -101,14 +101,14 @@ class Game:
         if self.paused:
             # pygame.draw.rect will not draw with alpha
             # passing the SRCALPHA flag is required
-            pause_surface = pygame.Surface((self.screen.width, self.screen.height), SRCALPHA)
+            pause_surface = pygame.Surface((self.width, self.height), SRCALPHA)
             # pause_surface.set_alpha(128)
             # pause_surface.fill((50, 50, 50))
             pause_surface.fill((50, 50, 50, 128)) # grey, 50% transparency
 
             pause_text = self.font.render("PAUSED", True, "white")
             pause_text_rect = pause_text.get_rect()
-            pause_text_rect.center = (self.screen.width // 2, self.screen.height // 2)
+            pause_text_rect.center = (self.width // 2, self.height // 2)
 
             # I blit it to the pause surface just because, but it can also
             # be blitted to the whole screen, just make sure to put it after
