@@ -20,6 +20,9 @@ def load_sound(name: str) -> mixer.Sound:
     file = resource(f"src/assets/sounds/{name}.mp3")
     return mixer.Sound(file)
 
+def load_icon() -> pygame.Surface:
+    file = resource(f"src/assets/icons/icon.png")
+    return pygame.image.load(file)
 
 def draw_text(
     text: str,

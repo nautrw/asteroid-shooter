@@ -7,7 +7,7 @@ from scripts.player import Player
 from scripts.asteroid import Asteroid
 from scripts.explosion import Explosion
 import random
-from utils import load_sprite, draw_text, resource
+from utils import load_sprite, draw_text, resource, load_icon
 from scripts.sounds import play_sound, toggle_mute_all
 
 
@@ -21,7 +21,7 @@ class Game:
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.background_img = load_sprite("background")
 
-        icon = pygame.image.load(resource("./assets/icons/icon.png"))
+        icon = load_icon()
         pygame.display.set_icon(icon)
         pygame.display.set_caption("Asteroid Shooter")
 
