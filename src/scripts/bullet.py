@@ -12,10 +12,12 @@ class Bullet(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.bottom = y
-        self.speed = 250
+        # I multiply this by 100 because it bothers me to have such high
+        # arbitrary values; delta-time is very low
+        self.speed = 5
     
     def update(self, dt: int | float, screen_height: int):
         if not 0 < self.rect.top < screen_height:
             self.kill()
         else:
-            self.rect.bottom -= self.speed * dt
+            self.rect.bottom -= self.speed * 100 * dt
