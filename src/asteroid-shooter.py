@@ -6,7 +6,7 @@ from scripts.player import Player
 from scripts.asteroid import Asteroid
 from scripts.explosion import Explosion
 import random
-from utils import load_sprite, draw_text
+from utils import load_sprite, draw_text, load_sound
 
 class Game:
     def __init__(self, width: int = 400, height: int = 800, fps: int = 60):
@@ -22,7 +22,7 @@ class Game:
         pygame.display.set_caption("Asteroid Shooter")
         
         mixer.init()
-        self.background_music = mixer.Sound(os.path.join("src", "assets", "sounds", "background.mp3"))
+        self.background_music = load_sound("background")
         self.background_music.set_volume(0.5)
         self.background_music.play(-1)
 
