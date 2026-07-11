@@ -1,5 +1,4 @@
 import os
-from signal import pause
 import pygame
 from pygame.locals import *
 from scripts.player import Player
