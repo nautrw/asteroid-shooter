@@ -45,7 +45,7 @@ class Player(pygame.sprite.Sprite):
         bullet_group: pygame.sprite.Group,
         screen_width: int,
     ):
-        sel.shot_dt_count += dt
+        self.shot_dt_count += dt
 
         pressed = pygame.key.get_pressed()
         pressing_left = pressed[K_a] or pressed[K_LEFT]
