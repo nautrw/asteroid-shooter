@@ -1,3 +1,4 @@
+from signal import pause
 import pygame
 from pygame.locals import *
 from scripts.player import Player
@@ -95,6 +96,25 @@ class Game:
         score_rect.centerx = self.width // 2
         score_rect.top = offset
         self.screen.blit(score_text, score_rect)
+
+        # paused
+        if self.paused:
+            # pygame.draw.rect will not draw with alpha
+            # passing the SRCALPHA flag is required
+            pause_surface = pygame.Surface((self.screen.width, self.screen.height), SRCALPHA)
+            # pause_surface.set_alpha(128)
+            # pause_surface.fill((50, 50, 50))
+            pause_surface.fill((50, 50, 50, 128)) # grey, 50% transparency
+
+            pause_text = self.font.render("PAUSED", True, "white")
+            pause_text_rect = pause_text.get_rect()
+            pause_text_rect.center = (self.screen.width // 2, self.screen.height // 2)
+
+            # I blit it to the pause surface just because, but it can also
+            # be blitted to the whole screen, just make sure to put it after
+            # blitting the pause_surface
+            pause_surface.blit(pause_text, pause_text_rect)
+            self.screen.blit(pause_surface, (0, 0))
 
     def draw_all(self):
         self.player.draw(self.screen)
