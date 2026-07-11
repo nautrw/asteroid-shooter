@@ -1,17 +1,24 @@
-import os
+import sys, os
 import pygame
 from pygame import mixer
 
-SPRITES = os.path.join("src", "assets", "sprites")
-SOUNDS = os.path.join("src", "assets", "sounds")
+# needed for pyinstaller to work
+def resource(relative_path):
+    base_path = getattr(
+        sys,
+        '_MEIPASS',
+        os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
 
 def load_sprite(name: str) -> pygame.Surface:
-    return pygame.image.load(os.path.join(SPRITES, f"{name}.png")).convert_alpha()
+    file = resource(f"./assets/sprites/{name}.png")
+    return pygame.image.load(file).convert_alpha()
 
 
 def load_sound(name: str) -> mixer.Sound:
-    return mixer.Sound(os.path.join(SOUNDS, f"{name}.mp3"))
+    file = resource(f"./assets/sounds/{name}.mp3")
+    return mixer.Sound(file)
 
 
 def draw_text(
