@@ -127,6 +127,11 @@ class Game:
             # main menu
             draw_text("ASTEROID SHOOTER", self.font, "red", self.screen, self.width // 2, self.height * .25)
             draw_text("Press space to play", self.font, "white", self.screen, self.width // 2, self.height * .5)
+            draw_text("Controls: \n"
+                      "A to move left \n"
+                      "D to move right \n"
+                      "Space to shoot \n", self.font, "yellow", self.screen,
+                      self.width // 2, self.height *.75)
 
     def draw_all(self):
         self.screen.blit(self.background_img, (0, 0))
