@@ -10,10 +10,11 @@ import random
 from utils import load_sprite, draw_text
 from scripts.sounds import play_sound, toggle_mute_all
 
+
 class Game:
     def __init__(self, width: int = 400, height: int = 800, fps: int = 60):
         pygame.init()
-        mixer.init() # for sounds
+        mixer.init()  # for sounds
 
         self.width = width
         self.height = height
@@ -24,7 +25,7 @@ class Game:
         icon = pygame.image.load(os.path.join("src", "assets", "icons", "icon.png"))
         pygame.display.set_icon(icon)
         pygame.display.set_caption("Asteroid Shooter")
-        
+
         play_sound("background", loops=-1)
         self.audio_paused = False
 
@@ -72,8 +73,10 @@ class Game:
                     asteroid = Asteroid(x, 0)
                     self.asteroids_group.add(asteroid)
                     self.asteroid_dt_count = 0
-            
-                asteroid_hits = pygame.sprite.groupcollide(self.bullets_group, self.asteroids_group, True, True)
+
+                asteroid_hits = pygame.sprite.groupcollide(
+                    self.bullets_group, self.asteroids_group, True, True
+                )
 
                 if asteroid_hits:
                     for asteroid in asteroid_hits.values():
@@ -85,21 +88,29 @@ class Game:
                         # 10 score = 5% faster
                         self.asteroid_dt_spawn_interval = abs(1 - (self.score * 0.005))
 
-                player_collisions = pygame.sprite.spritecollideany(self.player, self.asteroids_group)
+                player_collisions = pygame.sprite.spritecollideany(
+                    self.player, self.asteroids_group
+                )
 
                 if player_collisions:
                     explosion = Explosion(self.player.rect.x, self.player.rect.y)
                     self.explosions_group.add(explosion)
-                    self.player.lose_life(self.reset) # ty:ignore[invalid-argument-type]
+                    self.player.lose_life(
+                        self.reset
+                    )  # ty:ignore[invalid-argument-type]
 
                 if self.player.lives <= 0:
                     self.player_lost = True
 
-                self.player.update(self.dt, self.bullets_group, self.width, self.audio_paused)
+                self.player.update(
+                    self.dt, self.bullets_group, self.width, self.audio_paused
+                )
 
                 self.bullets_group.update(self.dt, self.height)
 
-                self.asteroids_group.update(self.dt, self.height, self.player.lose_life, self.reset)
+                self.asteroids_group.update(
+                    self.dt, self.height, self.player.lose_life, self.reset
+                )
 
                 self.explosions_group.update(self.dt)
 
@@ -114,15 +125,25 @@ class Game:
     def draw_ui(self):
         if not self.main_menu and not self.player_lost:
             # hearts
-            heart_width, heart_height = self.heart_sprite.get_width(), self.heart_sprite.get_height()
+            heart_width, heart_height = (
+                self.heart_sprite.get_width(),
+                self.heart_sprite.get_height(),
+            )
             offset = 5
             spacing = 5
             for i in range(self.player.lives):
-                rect = pygame.Rect(offset + i * (heart_width + spacing), offset, heart_width, heart_height)
+                rect = pygame.Rect(
+                    offset + i * (heart_width + spacing),
+                    offset,
+                    heart_width,
+                    heart_height,
+                )
                 self.screen.blit(self.heart_sprite, rect)
 
             # score
-            draw_text(str(self.score), self.font, "white", self.screen, self.width // 2, 25)
+            draw_text(
+                str(self.score), self.font, "white", self.screen, self.width // 2, 25
+            )
 
             # paused
             if self.paused:
@@ -131,25 +152,66 @@ class Game:
                 pause_surface = pygame.Surface((self.width, self.height), SRCALPHA)
                 # pause_surface.set_alpha(128)
                 # pause_surface.fill((50, 50, 50))
-                pause_surface.fill((50, 50, 50, 128)) # grey, 50% transparency
+                pause_surface.fill((50, 50, 50, 128))  # grey, 50% transparency
 
                 # Text can be drawn on pause surface or the main screen
-                draw_text("PAUSED", self.font, "white", pause_surface, self.width // 2, self.height // 2)
+                draw_text(
+                    "PAUSED",
+                    self.font,
+                    "white",
+                    pause_surface,
+                    self.width // 2,
+                    self.height // 2,
+                )
                 self.screen.blit(pause_surface, (0, 0))
         elif self.player_lost:
             # game over
-            draw_text("GAME OVER", self.font, "red", self.screen, self.width // 2, self.height // 2)
-            draw_text(f"Score: {self.score}", self.font, "green", self.screen, self.width // 2, self.height *.75)
+            draw_text(
+                "GAME OVER",
+                self.font,
+                "red",
+                self.screen,
+                self.width // 2,
+                self.height // 2,
+            )
+            draw_text(
+                f"Score: {self.score}",
+                self.font,
+                "green",
+                self.screen,
+                self.width // 2,
+                self.height * 0.75,
+            )
         else:
             # main menu
-            draw_text("ASTEROID SHOOTER", self.font, "red", self.screen, self.width // 2, self.height * .25)
-            draw_text("Press space to play", self.font, "white", self.screen, self.width // 2, self.height * .5)
-            draw_text("Controls: \n"
-                      "A to move left \n"
-                      "D to move right \n"
-                      "Space to shoot \n"
-                      "Escape to pause \n", self.font, "yellow", self.screen,
-                      self.width // 2, self.height *.75)
+            draw_text(
+                "ASTEROID SHOOTER",
+                self.font,
+                "red",
+                self.screen,
+                self.width // 2,
+                self.height * 0.25,
+            )
+            draw_text(
+                "Press space to play",
+                self.font,
+                "white",
+                self.screen,
+                self.width // 2,
+                self.height * 0.5,
+            )
+            draw_text(
+                "Controls: \n"
+                "A to move left \n"
+                "D to move right \n"
+                "Space to shoot \n"
+                "Escape to pause \n",
+                self.font,
+                "yellow",
+                self.screen,
+                self.width // 2,
+                self.height * 0.75,
+            )
 
     def draw_all(self):
         self.screen.blit(self.background_img, (0, 0))
@@ -165,6 +227,7 @@ class Game:
     def reset(self):
         self.player.rect.centerx = self.width // 2
         self.asteroids_group.empty()
+
 
 if __name__ == "__main__":
     Game().run()

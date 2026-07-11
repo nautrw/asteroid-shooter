@@ -3,6 +3,7 @@ from pygame.locals import *
 from utils import load_sprite
 from random import randint
 
+
 class Explosion(pg.sprite.Sprite):
     # check player.py
     rect: pg.Rect | pg.FRect
@@ -13,7 +14,7 @@ class Explosion(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.centery = y
-        
+
         self.lifespan = 0.1
         self.lifespan_dt_count = 0
 
