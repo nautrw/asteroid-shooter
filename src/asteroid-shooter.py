@@ -62,7 +62,7 @@ class Game:
                 player_collisions = pygame.sprite.spritecollideany(self.player, self.asteroids_group)
 
                 if player_collisions:
-                    self.player.lose_life(self.reset)
+                    self.player.lose_life(self.reset) # ty:ignore[invalid-argument-type]
 
                 if self.player.lives <= 0:
                     self.player_lost = True
