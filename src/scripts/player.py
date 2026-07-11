@@ -21,7 +21,7 @@ class Player(pygame.sprite.Sprite):
         self.bullet_y_offset = 5
 
         self.shot_dt_count = 0
-        self.shot_dt_interval = 0.25
+        self.shot_dt_interval = 0.5
 
         self.hit = False
         self.blinking = False
