@@ -39,7 +39,7 @@ class Game:
                 if event.type == QUIT:
                     self.running = False
                 elif event.type == KEYDOWN:
-                    if event.key == K_p:
+                    if event.key == K_ESCAPE:
                         self.paused = not self.paused
 
             if not self.paused:
