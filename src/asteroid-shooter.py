@@ -130,7 +130,8 @@ class Game:
             draw_text("Controls: \n"
                       "A to move left \n"
                       "D to move right \n"
-                      "Space to shoot \n", self.font, "yellow", self.screen,
+                      "Space to shoot \n"
+                      "Escape to pause \n", self.font, "yellow", self.screen,
                       self.width // 2, self.height *.75)
 
     def draw_all(self):
