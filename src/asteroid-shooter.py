@@ -34,6 +34,7 @@ class Game:
         self.asteroid_dt_spawn_interval = 1
 
         self.font = pygame.font.Font("freesansbold.ttf", 32)
+        self.small_font = pygame.font.Font("freesansbold.ttf", 16)
 
         self.paused = False
         self.main_menu = True
@@ -122,6 +123,7 @@ class Game:
         elif self.player_lost:
             # game over
             draw_text("GAME OVER", self.font, "red", self.screen, self.width // 2, self.height // 2)
+            draw_text(f"Score: {self.score}", self.small_font, "white", self.screen, self.width // 2, self.height *.75)
         else:
             # main menu
             draw_text("ASTEROID SHOOTER", self.font, "red", self.screen, self.width // 2, self.height * .25)
