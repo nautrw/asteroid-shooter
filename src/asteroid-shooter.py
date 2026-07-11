@@ -30,19 +30,20 @@ class Game:
         self.font = pygame.font.Font("freesansbold.ttf", 32)
 
         self.paused = False
+        self.main_menu = True
 
     def run(self):
         while self.running:
-            self.screen.fill((0, 0, 0))
-
             for event in pygame.event.get():
                 if event.type == QUIT:
                     self.running = False
                 elif event.type == KEYDOWN:
-                    if event.key == K_ESCAPE:
+                    if event.key == K_ESCAPE and not self.main_menu:
                         self.paused = not self.paused
+                    elif event.key == K_SPACE and self.main_menu:
+                        self.main_menu = False
 
-            if not self.paused:
+            if not self.paused and not self.main_menu:
                 if self.asteroid_dt_count >= self.asteroid_dt_spawn_interval:
                     asteroid = Asteroid(random.randint(0, self.width), 0)
                     self.asteroids_group.add(asteroid)
@@ -82,16 +83,23 @@ class Game:
         pygame.quit()
 
     def draw_ui(self):
-        # hearts
-        heart_width, heart_height = self.heart_sprite.get_width(), self.heart_sprite.get_height()
-        offset = 5
-        spacing = 5
-        for i in range(self.player.lives):
-            rect = pygame.Rect(offset + i * (heart_width + spacing), offset, heart_width, heart_height)
-            self.screen.blit(self.heart_sprite, rect)
+        self.screen.fill((0, 0, 0))
 
-        # score
-        draw_text(str(self.score), self.font, "white", self.screen, self.width // 2, 25)
+        if not self.main_menu:
+            # hearts
+            heart_width, heart_height = self.heart_sprite.get_width(), self.heart_sprite.get_height()
+            offset = 5
+            spacing = 5
+            for i in range(self.player.lives):
+                rect = pygame.Rect(offset + i * (heart_width + spacing), offset, heart_width, heart_height)
+                self.screen.blit(self.heart_sprite, rect)
+
+            # score
+            draw_text(str(self.score), self.font, "white", self.screen, self.width // 2, 25)
+        else:
+            # main menu
+            draw_text("ASTEROID SHOOTER", self.font, "red", self.screen, self.width // 2, self.height * .25)
+            draw_text("Press space to play", self.font, "white", self.screen, self.width // 2, self.height * .5)
 
         # paused
         if self.paused:
@@ -107,11 +115,11 @@ class Game:
             self.screen.blit(pause_surface, (0, 0))
 
     def draw_all(self):
+        self.draw_ui()
         self.player.draw(self.screen)
         self.bullets_group.draw(self.screen)
         self.asteroids_group.draw(self.screen)
         self.explosions_group.draw(self.screen)
-        self.draw_ui()
     
     def game_over(self):
         self.running = False
