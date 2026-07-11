@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from utils import load_sprite
+from random import randint
 
 class Asteroid(pygame.sprite.Sprite):
     # player.py
@@ -8,7 +9,7 @@ class Asteroid(pygame.sprite.Sprite):
     
     def __init__(self, x: int | float, y: int | float):
         super().__init__()
-        self.image: pygame.Surface = load_sprite("asteroid")
+        self.image: pygame.Surface = load_sprite(f"asteroid{randint(1, 3)}")
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.bottom = y
