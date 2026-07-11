@@ -41,7 +41,6 @@ class Game:
 
     def run(self):
         while self.running:
-            print(self.asteroid_dt_spawn_interval)
             for event in pygame.event.get():
                 if event.type == QUIT:
                     self.running = False
