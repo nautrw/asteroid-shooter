@@ -200,7 +200,8 @@ class Game:
                 "A to move left \n"
                 "D to move right \n"
                 "Space to shoot \n"
-                "Escape to pause \n",
+                "Escape to pause \n"
+                "M to toggle audio",
                 self.font,
                 "yellow",
                 self.screen,
