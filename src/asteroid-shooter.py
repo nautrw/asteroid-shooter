@@ -23,14 +23,16 @@ class Game:
         self.asteroids_group = pygame.sprite.Group()
         self.explosions_group = pygame.sprite.Group()
 
-        # defaults so that there is no delay for asteroids to spawn
-        self.asteroid_dt_count = 100
-        self.asteroid_dt_spawn_interval = 1
         self.dt = 0
         self.running = True
         self.heart_sprite = load_sprite("heart")
 
         self.score = 0
+
+        # defaults so that there is no delay for asteroids to spawn
+        self.asteroid_dt_count = 100
+        self.asteroid_dt_spawn_interval = 1
+
         self.font = pygame.font.Font("freesansbold.ttf", 32)
 
         self.paused = False
@@ -39,6 +41,7 @@ class Game:
 
     def run(self):
         while self.running:
+            print(self.asteroid_dt_spawn_interval)
             for event in pygame.event.get():
                 if event.type == QUIT:
                     self.running = False
@@ -64,6 +67,9 @@ class Game:
                         explosion = Explosion(x, y)
                         self.explosions_group.add(explosion)
                         self.score += 1
+                        # asteroids spawn faster as the score increases
+                        # 10 score = 5% faster
+                        self.asteroid_dt_spawn_interval = abs(1 - (self.score * 0.005))
 
                 player_collisions = pygame.sprite.spritecollideany(self.player, self.asteroids_group)
 
