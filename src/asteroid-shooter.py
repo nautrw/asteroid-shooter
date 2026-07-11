@@ -14,7 +14,6 @@ from scripts.sounds import play_sound, toggle_mute_all
 class Game:
     def __init__(self, width: int = 400, height: int = 800, fps: int = 60):
         pygame.init()
-        mixer.init()  # for sounds
 
         self.width = width
         self.height = height
