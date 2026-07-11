@@ -46,7 +46,9 @@ class Game:
 
             if not self.paused and not self.main_menu and not self.player_lost:
                 if self.asteroid_dt_count >= self.asteroid_dt_spawn_interval:
-                    asteroid = Asteroid(random.randint(0, self.width), 0)
+                    # asteroids are 64px wide
+                    x = random.randint(0, self.width - 64)
+                    asteroid = Asteroid(x, 0)
                     self.asteroids_group.add(asteroid)
                     self.asteroid_dt_count = 0
             
