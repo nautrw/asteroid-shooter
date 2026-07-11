@@ -14,11 +14,15 @@ class Game:
         self.height = height
         self.fps = fps
         self.screen = pygame.display.set_mode((self.width, self.height))
+        self.background_img = load_sprite("background")
+
         self.clock = pygame.time.Clock()
+
         self.player = Player((self.width // 2), (self.height - 10))
         self.bullets_group = pygame.sprite.Group()
         self.asteroids_group = pygame.sprite.Group()
         self.explosions_group = pygame.sprite.Group()
+
         # defaults so that there is no delay for asteroids to spawn
         self.asteroid_dt_count = 100
         self.asteroid_dt_spawn_interval = 1
@@ -119,7 +123,7 @@ class Game:
             draw_text("Press space to play", self.font, "white", self.screen, self.width // 2, self.height * .5)
 
     def draw_all(self):
-        self.screen.fill((0, 0, 0))
+        self.screen.blit(self.background_img, (0, 0))
 
         if not self.main_menu and not self.player_lost:
             self.player.draw(self.screen)
