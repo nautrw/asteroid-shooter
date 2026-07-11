@@ -1,3 +1,4 @@
+from typing import Callable
 from pygame.mixer_music import play
 from scripts.bullet import Bullet
 import pygame
@@ -11,10 +12,11 @@ class Player(pygame.sprite.Sprite):
     # Ty will scream at me because pygame.Sprite defaults it to None
     # A band-aid until it gets fixed
     rect: pygame.Rect | pygame.FRect
+    image: pygame.Surface
 
     def __init__(self, x: int | float, y: int | float):
         super().__init__()
-        self.image: pygame.Surface = load_sprite("rocket")
+        self.image = load_sprite("rocket")
         self.visible = True
         self.rect = self.image.get_rect()
         self.rect.centerx = x
@@ -77,13 +79,13 @@ class Player(pygame.sprite.Sprite):
 
     def draw(self, screen: pygame.Surface):
         if self.visible:
-            screen.blit(self.image, self.rect)  # ty:ignore[invalid-argument-type]
+            screen.blit(self.image, self.rect)
 
-    def lose_life(self, reset_callback: function):
+    def lose_life(self, reset_callback: Callable):
         if not self.blinking:
             self.blinking = True
             self.lives -= 1
-            reset_callback()  # ty:ignore[call-non-callable]
+            reset_callback()
 
     def shoot(self):
         x = self.rect.centerx

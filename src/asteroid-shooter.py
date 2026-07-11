@@ -95,9 +95,7 @@ class Game:
                 if player_collisions:
                     explosion = Explosion(self.player.rect.x, self.player.rect.y)
                     self.explosions_group.add(explosion)
-                    self.player.lose_life(
-                        self.reset
-                    )  # ty:ignore[invalid-argument-type]
+                    self.player.lose_life(self.reset)
 
                 if self.player.lives <= 0:
                     self.player_lost = True
