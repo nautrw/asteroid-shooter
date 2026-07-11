@@ -1,5 +1,6 @@
 import os
 import pygame
+from pygame import mixer
 from pygame.locals import *
 from scripts.player import Player
 from scripts.asteroid import Asteroid
@@ -19,6 +20,11 @@ class Game:
         icon = pygame.image.load(os.path.join("src", "assets", "icons", "icon.png"))
         pygame.display.set_icon(icon)
         pygame.display.set_caption("Asteroid Shooter")
+        
+        mixer.init()
+        self.background_music = mixer.Sound(os.path.join("src", "assets", "sounds", "background.mp3"))
+        self.background_music.set_volume(0.5)
+        self.background_music.play(-1)
 
         self.clock = pygame.time.Clock()
 
