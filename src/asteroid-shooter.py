@@ -31,19 +31,20 @@ class Game:
 
         self.paused = False
         self.main_menu = True
+        self.player_lost = False
 
     def run(self):
         while self.running:
             for event in pygame.event.get():
                 if event.type == QUIT:
                     self.running = False
-                elif event.type == KEYDOWN:
+                elif event.type == KEYDOWN and not self.player_lost:
                     if event.key == K_ESCAPE and not self.main_menu:
                         self.paused = not self.paused
                     elif event.key == K_SPACE and self.main_menu:
                         self.main_menu = False
 
-            if not self.paused and not self.main_menu:
+            if not self.paused and not self.main_menu and not self.player_lost:
                 if self.asteroid_dt_count >= self.asteroid_dt_spawn_interval:
                     asteroid = Asteroid(random.randint(0, self.width), 0)
                     self.asteroids_group.add(asteroid)
@@ -64,7 +65,7 @@ class Game:
                     self.player.lose_life(self.reset)
 
                 if self.player.lives <= 0:
-                    self.game_over()
+                    self.player_lost = True
 
                 self.player.update(self.dt, self.bullets_group, self.width)
 
@@ -83,7 +84,7 @@ class Game:
         pygame.quit()
 
     def draw_ui(self):
-        if not self.main_menu:
+        if not self.main_menu and not self.player_lost:
             # hearts
             heart_width, heart_height = self.heart_sprite.get_width(), self.heart_sprite.get_height()
             offset = 5
@@ -94,37 +95,37 @@ class Game:
 
             # score
             draw_text(str(self.score), self.font, "white", self.screen, self.width // 2, 25)
+
+            # paused
+            if self.paused:
+                # pygame.draw.rect will not draw with alpha
+                # passing the SRCALPHA flag is required
+                pause_surface = pygame.Surface((self.width, self.height), SRCALPHA)
+                # pause_surface.set_alpha(128)
+                # pause_surface.fill((50, 50, 50))
+                pause_surface.fill((50, 50, 50, 128)) # grey, 50% transparency
+
+                # Text can be drawn on pause surface or the main screen
+                draw_text("PAUSED", self.font, "white", pause_surface, self.width // 2, self.height // 2)
+                self.screen.blit(pause_surface, (0, 0))
+        elif self.player_lost:
+            # game over
+            draw_text("GAME OVER", self.font, "red", self.screen, self.width // 2, self.height // 2)
         else:
             # main menu
             draw_text("ASTEROID SHOOTER", self.font, "red", self.screen, self.width // 2, self.height * .25)
             draw_text("Press space to play", self.font, "white", self.screen, self.width // 2, self.height * .5)
 
-        # paused
-        if self.paused:
-            # pygame.draw.rect will not draw with alpha
-            # passing the SRCALPHA flag is required
-            pause_surface = pygame.Surface((self.width, self.height), SRCALPHA)
-            # pause_surface.set_alpha(128)
-            # pause_surface.fill((50, 50, 50))
-            pause_surface.fill((50, 50, 50, 128)) # grey, 50% transparency
-
-            # Text can be drawn on pause surface or the main screen
-            draw_text("PAUSED", self.font, "white", pause_surface, self.width // 2, self.height // 2)
-            self.screen.blit(pause_surface, (0, 0))
-
     def draw_all(self):
         self.screen.fill((0, 0, 0))
 
-        if not self.main_menu:
+        if not self.main_menu and not self.player_lost:
             self.player.draw(self.screen)
             self.bullets_group.draw(self.screen)
             self.asteroids_group.draw(self.screen)
             self.explosions_group.draw(self.screen)
 
         self.draw_ui()
-    
-    def game_over(self):
-        self.running = False
 
     def reset(self):
         self.player.rect.centerx = self.width // 2
