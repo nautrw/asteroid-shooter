@@ -1,6 +1,7 @@
 import pygame as pg
 from pygame.locals import *
 from utils import load_sprite
+from random import randint
 
 class Explosion(pg.sprite.Sprite):
     # check player.py
@@ -8,7 +9,7 @@ class Explosion(pg.sprite.Sprite):
 
     def __init__(self, x: int | float, y: int | float):
         super().__init__()
-        self.image: pg.Surface = load_sprite("explosion")
+        self.image: pg.Surface = load_sprite(f"explosion{randint(1, 3)}")
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.centery = y
