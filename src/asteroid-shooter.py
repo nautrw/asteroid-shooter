@@ -5,7 +5,7 @@ from scripts.player import Player
 from scripts.asteroid import Asteroid
 from scripts.explosion import Explosion
 import random
-from utils import load_sprite
+from utils import load_sprite, draw_text
 
 class Game:
     def __init__(self, width: int = 400, height: int = 800, fps: int = 60):
@@ -91,11 +91,7 @@ class Game:
             self.screen.blit(self.heart_sprite, rect)
 
         # score
-        score_text = self.font.render(str(self.score), True, "white")
-        score_rect = score_text.get_rect()
-        score_rect.centerx = self.width // 2
-        score_rect.top = offset
-        self.screen.blit(score_text, score_rect)
+        draw_text(str(self.score), self.font, "white", self.screen, self.width // 2, 25)
 
         # paused
         if self.paused:
@@ -106,14 +102,8 @@ class Game:
             # pause_surface.fill((50, 50, 50))
             pause_surface.fill((50, 50, 50, 128)) # grey, 50% transparency
 
-            pause_text = self.font.render("PAUSED", True, "white")
-            pause_text_rect = pause_text.get_rect()
-            pause_text_rect.center = (self.width // 2, self.height // 2)
-
-            # I blit it to the pause surface just because, but it can also
-            # be blitted to the whole screen, just make sure to put it after
-            # blitting the pause_surface
-            pause_surface.blit(pause_text, pause_text_rect)
+            # Text can be drawn on pause surface or the main screen
+            draw_text("PAUSED", self.font, "white", pause_surface, self.width // 2, self.height // 2)
             self.screen.blit(pause_surface, (0, 0))
 
     def draw_all(self):
