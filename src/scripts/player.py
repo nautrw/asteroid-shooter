@@ -44,9 +44,8 @@ class Player(pygame.sprite.Sprite):
         dt: int | float,
         bullet_group: pygame.sprite.Group,
         screen_width: int,
-        audio_paused: bool,
     ):
-        self.shot_dt_count += dt
+        sel.shot_dt_count += dt
 
         pressed = pygame.key.get_pressed()
         pressing_left = pressed[K_a] or pressed[K_LEFT]

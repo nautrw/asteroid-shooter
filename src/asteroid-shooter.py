@@ -27,7 +27,6 @@ class Game:
         pygame.display.set_caption("Asteroid Shooter")
 
         play_sound("background", loops=-1)
-        self.audio_paused = False
 
         self.clock = pygame.time.Clock()
 
@@ -63,7 +62,6 @@ class Game:
                     elif event.key == K_SPACE and self.main_menu:
                         self.main_menu = False
                     elif event.key == K_m:
-                        self.audio_paused = not self.audio_paused
                         toggle_mute_all()
 
             if not self.paused and not self.main_menu and not self.player_lost:
@@ -101,7 +99,7 @@ class Game:
                     self.player_lost = True
 
                 self.player.update(
-                    self.dt, self.bullets_group, self.width, self.audio_paused
+                    self.dt, self.bullets_group, self.width
                 )
 
                 self.bullets_group.update(self.dt, self.height)
