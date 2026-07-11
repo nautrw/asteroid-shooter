@@ -1,8 +1,10 @@
+from pygame.mixer_music import play
 from scripts.bullet import Bullet
 import pygame
 from pygame import mixer
 from pygame.locals import *
 from utils import load_sprite, load_sound
+from scripts.sounds import play_sound
 
 class Player(pygame.sprite.Sprite):
     # Ty will scream at me because pygame.Sprite defaults it to None
@@ -23,8 +25,6 @@ class Player(pygame.sprite.Sprite):
 
         self.shot_dt_count = 0
         self.shot_dt_interval = 0.5
-        self.fire_sound = load_sound("fire")
-        self.fire_sound.set_volume(0.5)
 
         self.hit = False
         self.blinking = False
@@ -52,9 +52,7 @@ class Player(pygame.sprite.Sprite):
             bullet = self.shoot()
             bullet_group.add(bullet)
             self.shot_dt_count = 0
-
-            if not audio_paused:
-                self.fire_sound.play()
+            play_sound("fire")
 
         if self.blinking:
             self.blinks_dt_count += dt

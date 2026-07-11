@@ -7,7 +7,8 @@ from scripts.player import Player
 from scripts.asteroid import Asteroid
 from scripts.explosion import Explosion
 import random
-from utils import load_sprite, draw_text, load_sound
+from utils import load_sprite, draw_text
+from scripts.sounds import play_sound, toggle_mute_all
 
 class Game:
     def __init__(self, width: int = 400, height: int = 800, fps: int = 60):
@@ -24,9 +25,7 @@ class Game:
         pygame.display.set_icon(icon)
         pygame.display.set_caption("Asteroid Shooter")
         
-        self.background_music = load_sound("background")
-        self.background_music.set_volume(0.5)
-        mixer.Channel(0).play(self.background_music, -1)
+        play_sound("background", loops=-1)
         self.audio_paused = False
 
         self.clock = pygame.time.Clock()
@@ -64,7 +63,7 @@ class Game:
                         self.main_menu = False
                     elif event.key == K_m:
                         self.audio_paused = not self.audio_paused
-                        self.background_music.set_volume(0 if self.audio_paused else 0.5)
+                        toggle_mute_all()
 
             if not self.paused and not self.main_menu and not self.player_lost:
                 if self.asteroid_dt_count >= self.asteroid_dt_spawn_interval:
