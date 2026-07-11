@@ -1,3 +1,4 @@
+import os
 from signal import pause
 import pygame
 from pygame.locals import *
@@ -15,6 +16,10 @@ class Game:
         self.fps = fps
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.background_img = load_sprite("background")
+
+        icon = pygame.image.load(os.path.join("src", "assets", "icons", "icon.png"))
+        pygame.display.set_icon(icon)
+        pygame.display.set_caption("Asteroid Shooter")
 
         self.clock = pygame.time.Clock()
 
