@@ -1,11 +1,13 @@
 from typing import Callable
-from pygame.mixer_music import play
-from scripts.bullet import Bullet
+
 import pygame
 from pygame import mixer
 from pygame.locals import *
-from utils import load_sprite, load_sound
+from pygame.mixer_music import play
+
+from scripts.bullet import Bullet
 from scripts.sounds import play_sound
+from utils import load_sound, load_sprite
 
 
 class Player(pygame.sprite.Sprite):
