@@ -12,16 +12,16 @@ def resource(relative_path):
 
 
 def load_sprite(name: str) -> pygame.Surface:
-    file = resource(f"src/assets/sprites/{name}.png")
+    file = resource(f"assets/sprites/{name}.png")
     return pygame.image.load(file).convert_alpha()
 
 
 def load_sound(name: str) -> mixer.Sound:
-    file = resource(f"src/assets/sounds/{name}.mp3")
+    file = resource(f"assets/sounds/{name}.mp3")
     return mixer.Sound(file)
 
 def load_icon() -> pygame.Surface:
-    file = resource(f"src/assets/icons/icon.png")
+    file = resource(f"assets/icons/icon.png")
     return pygame.image.load(file)
 
 def draw_text(
