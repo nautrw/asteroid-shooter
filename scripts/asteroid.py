@@ -1,3 +1,4 @@
+from typing import Callable
 import pygame
 from pygame.locals import *
 from utils import load_sprite
@@ -21,8 +22,8 @@ class Asteroid(pygame.sprite.Sprite):
         self,
         dt: int | float,
         screen_height: int,
-        damage_callback: function,
-        reset_callback: function,
+        damage_callback: Callable,
+        reset_callback: Callable,
     ):
         if self.rect.bottom >= screen_height:
             damage_callback(reset_callback)
