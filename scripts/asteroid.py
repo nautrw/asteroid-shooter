@@ -16,7 +16,7 @@ class Asteroid(pygame.sprite.Sprite):
         self.rect.left = x
         self.rect.bottom = y
 
-        self.speed = 250
+        self.speed = 2.5
 
     def update(
         self,
@@ -29,4 +29,4 @@ class Asteroid(pygame.sprite.Sprite):
             damage_callback(reset_callback)
             self.kill()
         else:
-            self.rect.bottom += self.speed * dt
+            self.rect.bottom += self.speed * dt * 100
